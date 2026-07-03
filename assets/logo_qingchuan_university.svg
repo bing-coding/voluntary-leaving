@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">青川大学校徽</title>
+  <desc id="desc">虚构高校青川大学的圆形校徽，包含山水、书本、校门和建校年份元素。</desc>
+  <defs>
+    <linearGradient id="sealBlue" x1="110" y1="64" x2="398" y2="448" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1a6d9b"/>
+      <stop offset="0.52" stop-color="#155c8a"/>
+      <stop offset="1" stop-color="#0f4a73"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="170" y1="280" x2="342" y2="386" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fffdfa"/>
+      <stop offset="1" stop-color="#e7eef3"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="244" fill="#f8fbfd" stroke="#0e4f78" stroke-width="12"/>
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#b99348" stroke-width="8"/>
+  <circle cx="256" cy="256" r="184" fill="url(#sealBlue)" stroke="#0e4f78" stroke-width="2"/>
+
+  <path
+    d="M94 256a162 162 0 0 1 324 0"
+    fill="none"
+    stroke="#f8fbfd"
+    stroke-width="34"
+    stroke-linecap="round"
+    opacity=".98"
+  />
+  <path
+    d="M121 256a135 135 0 0 1 270 0"
+    fill="none"
+    stroke="#b99348"
+    stroke-width="3"
+    stroke-linecap="round"
+    opacity=".8"
+  />
+
+  <text
+    x="256"
+    y="88"
+    text-anchor="middle"
+    fill="#0e4f78"
+    font-size="31"
+    font-weight="700"
+    letter-spacing="5"
+    font-family="Songti SC, SimSun, serif"
+  >青川大学</text>
+  <text
+    x="256"
+    y="420"
+    text-anchor="middle"
+    fill="#0e4f78"
+    font-size="19"
+    font-weight="700"
+    letter-spacing="2"
+    font-family="Times New Roman, serif"
+  >QINGCHUAN UNIVERSITY</text>
+
+  <g transform="translate(0 6)">
+    <path d="M118 315c46-34 72-44 110-26 18 8 32 19 55 8 28-14 52-50 111-48-28 73-86 121-143 121-55 0-101-20-133-55z" fill="#e5f0f5"/>
+    <path d="M118 315c46-34 72-44 110-26 18 8 32 19 55 8 28-14 52-50 111-48" fill="none" stroke="#0e4f78" stroke-width="7" stroke-linecap="round"/>
+    <path d="M164 269l52-72 35 50 37-88 70 110" fill="none" stroke="#f8fbfd" stroke-width="19" stroke-linejoin="round" stroke-linecap="round"/>
+    <path d="M164 269l52-72 35 50 37-88 70 110" fill="none" stroke="#b99348" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+
+    <path d="M176 319c31-18 55-18 80 0 25-18 49-18 80 0v63c-31-17-55-17-80 0-25-17-49-17-80 0z" fill="url(#paper)" stroke="#0e4f78" stroke-width="7" stroke-linejoin="round"/>
+    <path d="M256 319v63" stroke="#0e4f78" stroke-width="5"/>
+    <path d="M198 338c19-7 35-5 48 3M198 359c19-7 35-5 48 3M266 341c14-8 31-9 50-3M266 362c14-8 31-9 50-3" stroke="#7a8b99" stroke-width="4" stroke-linecap="round"/>
+
+    <path d="M184 286h144v25H184z" fill="#f8fbfd" stroke="#0e4f78" stroke-width="6"/>
+    <path d="M201 286v-54h110v54" fill="none" stroke="#f8fbfd" stroke-width="22" stroke-linejoin="round"/>
+    <path d="M201 286v-54h110v54" fill="none" stroke="#b99348" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M190 231h132l-66-42z" fill="#f8fbfd" stroke="#0e4f78" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M218 286v-36M256 286v-36M294 286v-36" stroke="#0e4f78" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <circle cx="122" cy="392" r="6" fill="#b99348"/>
+  <circle cx="390" cy="392" r="6" fill="#b99348"/>
+  <text
+    x="256"
+    y="464"
+    text-anchor="middle"
+    fill="#b99348"
+    font-size="24"
+    font-weight="700"
+    letter-spacing="5"
+    font-family="Times New Roman, serif"
+  >1958</text>
+</svg>

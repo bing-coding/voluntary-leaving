@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>自愿离校 · 结局页面预览</title>
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      body {
+        background: #06090d;
+      }
+
+      .preview-top {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(143, 160, 173, 0.28);
+        background: rgba(6, 9, 13, 0.92);
+        color: #e8edf1;
+        backdrop-filter: blur(10px);
+      }
+
+      .preview-top h1 {
+        margin: 0 0 4px;
+        font-size: 18px;
+      }
+
+      .preview-top p {
+        margin: 0;
+        color: #aebbc5;
+        font-size: 13px;
+      }
+
+      .preview-section {
+        border-bottom: 1px solid rgba(143, 160, 173, 0.16);
+      }
+
+      .preview-section .ending {
+        min-height: auto;
+        padding: 44px 20px;
+      }
+
+      .preview-section .ending-card {
+        width: min(980px, calc(100vw - 40px));
+      }
+
+      .preview-kicker {
+        position: relative;
+        z-index: 2;
+        width: min(980px, calc(100vw - 40px));
+        margin: 0 auto 12px;
+        color: #aebbc5;
+        font-size: 13px;
+      }
+
+      .preview-kicker strong {
+        color: #f1f5f8;
+      }
+
+      .preview-section .ending-footer button {
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="preview-top">
+      <h1>《自愿离校》结局页面预览</h1>
+      <p>当前代码里共有 6 个 ending type；其中“离校确认已接收”按证据数量分成两个可见结局，所以这里展示 7 个玩家可见结局。</p>
+    </header>
+
+    <main id="preview"></main>
+
+    <script>
+      const endings = [
+        {
+          label: "default",
+          collected: "本地取证夹：3/19",
+          title: "你已被强行归档。",
+          name: "石沉海底",
+          status: "XJYD-FINAL-0713 · 未收到有效异议",
+          body: "你没有完成关键举证，流程按既有材料归档。你只能看着权限逐项关闭，你什么都做不了了。<br /><br />你意识到，或许你和孟清是一样的。",
+          note: "待办事项已清空。申诉入口已关闭。",
+          log: ["08:00 学籍异动归档完成", "08:03 校园网账号转入离校过渡", "08:07 论坛历史发言仅保留摘要", "08:12 家长端显示：学生已完成确认"],
+          denied: ["教务详情", "邮箱附件", "论坛私信", "B4 旧刊"],
+          variant: "lost"
+        },
+        {
+          label: "voluntary / low evidence",
+          collected: "本地取证夹：4/19",
+          title: "离校确认已接收",
+          name: "随波逐流",
+          status: "LOCAL-BACKUP-FAILED · 零散截图",
+          body: "你点击了确认，学校系统把你归档为自愿离校。你离开了流程，也失去了继续追问的入口。",
+          note: "系统仍显示：本人确认，材料完整。",
+          log: ["03:56 本地备份校验失败", "03:57 附件缺失：B4 静帧", "03:58 附件缺失：转发规则", "03:59 本人确认记录已归档"],
+          denied: ["校园网", "校内邮箱", "图书馆封闭馆藏", "学生事务申诉"],
+          variant: "voluntary"
+        },
+        {
+          label: "voluntary / high evidence",
+          collected: "本地取证夹：12/19",
+          title: "离校确认已接收",
+          name: "抱薪留火",
+          status: "LOCAL-BACKUP-PARTIAL · for_mengqing.zip",
+          body: "尽管你获得了一些证据，你仍然接受了离校归档，这是唯一能获得完整备份的方式。你失去了校内身份，但真相仍然可以调查。<br /><br />你依旧抱有希望：即使你的人生失败了，会不会有下一个成功者？",
+          note: "系统仍显示：本人确认，风险解除。",
+          log: ["03:56 正在压缩本地证据", "03:57 邮箱服务停止同步", "03:58 校园卡查询权限回收", "03:59 for_mengqing.zip 写入完成"],
+          denied: ["校园网", "校内邮箱", "图书馆封闭馆藏", "学生事务申诉"],
+          variant: "voluntary"
+        },
+        {
+          label: "restore",
+          collected: "本地取证夹：13/19",
+          title: "流程暂停",
+          name: "全身而退",
+          status: "XJYD-0713 · 材料瑕疵",
+          body: "复核通过，你提交的补充材料进入复核附件，退学流程被标记为材料瑕疵并暂停。但那些有关于更多真相的信息？你不知道，或者“选择”不知情，你要的只是顺利毕业而已。<br /><br />你不需要揭露什么真相，你是明哲保身的、智慧的庶民。",
+          note: "页面恢复了你的名字，补充材料留在复核附件中。",
+          log: ["04:11 学籍状态恢复：在籍", "04:12 家长端更正说明已发送", "04:13 补充材料写入复核附件", "04:14 事故相关材料转入另案处理"],
+          denied: ["孟清调阅登记", "顾天泽处分撤回", "B4 CCTV 原始流", "审计附件"],
+          variant: "restore"
+        },
+        {
+          label: "public",
+          collected: "本地取证夹：16/19",
+          title: "申诉已公开",
+          name: "众目昭彰",
+          status: "FORUM-CACHE-0713 · 正在扩散",
+          body: "你公开了关于顾天泽的完整证据链。退学流程暂停，吃瓜群众为你的正义欢呼喝彩，尽管舆情不断被镇压。你的账号被列入重点风险，你再也不能只做一个普通学生。<br /><br />你究竟是仗义执言的勇士，还是趟了浑水的愚民？",
+          note: "他们删得越快，被发现的就越多。",
+          log: ["04:21 匿名区新增 52 条引用", "04:22 关键词：顾天泽 / 推免候选排名 已限制搜索", "04:23 家长端风险等级上调", "04:24 退学流程暂停，账号进入重点关注"],
+          denied: ["普通学生身份", "家长端信任", "论坛发帖自由", "辅导员线下预约"],
+          variant: "public"
+        },
+        {
+          label: "audit",
+          collected: "本地取证夹：15/19",
+          title: "材料已反向归档",
+          name: "拨乱反正",
+          status: "AUDIT-QCU-2026-0713 · 不可由学院端删除",
+          body: "你没有公开资料，而是直接绕过学院，将材料送进了审计归档，你相信，自然有更高层的人来进行判决。你锁住了真相，但你仍然在离校流程里。<br /><br />一切都没有改变，除了周启明第一次发来了私人消息。",
+          note: "这一次，系统替他们留下了痕迹。",
+          log: ["04:31 审计附件校验通过", "04:32 保研候选名单缓存写入附件", "04:33 学院端删除权限拒绝", "04:34 AUDIT-QCU-2026-0713 已锁定"],
+          denied: ["撤回审计附件", "覆盖家长端缓存", "重写谈话原文", "删除 B4 关联编号"],
+          variant: "audit"
+        },
+        {
+          label: "true",
+          collected: "本地取证夹：21/21",
+          title: "回到名单",
+          name: "蚂蚁的胜利",
+          status: "ACTIVE-STUDENT-0713 · 补充调查已受理",
+          body: "学籍状态恢复后，那些曾经写着“无权限”的页面重新亮起：纪要、附件、候选名单缓存和论坛残留第一次进入同一条正式程序：学校领导接受调查，顾天泽推免资格暂停，孟清事件被重新核查。<br /><br />仍然没有人向你道歉，但这一次，起码他们不能再把你的名字从名单里删掉。",
+          note: "真相进入程序，不等于世界立刻变好；但它终于不能只存在于截图里。",
+          log: ["05:02 学籍状态：在籍", "05:04 复学后补充调查材料受理", "05:08 周启明会议纪要 OCR 写入附件", "05:13 推免资格复核暂停", "05:17 B4 事件转入校外调查协查"],
+          denied: ["在籍状态", "补充调查附件", "会议纪要 OCR", "候选名单缓存"],
+          permissionLabel: "程序状态",
+          accessStatus: "已写入",
+          variant: "true"
+        }
+      ];
+
+      function renderEnding(item) {
+        const variantClass = item.variant === "lost" || item.variant === "voluntary" ? "" : ` ending-${item.variant}`;
+        const permissionLabel = item.permissionLabel || "权限状态";
+        const accessStatus = item.accessStatus || "拒绝访问";
+        return `
+          <section class="preview-section">
+            <div class="ending${variantClass}">
+              <div class="ending-noise" aria-hidden="true"></div>
+              <div>
+                <div class="preview-kicker">预览类型：<strong>${item.label}</strong></div>
+                <section class="ending-card">
+                  <div class="ending-stamp">${item.status}</div>
+                  <h1>${item.title}</h1>
+                  <p class="ending-body">${item.body}</p>
+                  <div class="ending-achievement"><span>达成结局</span><strong>${item.name}</strong></div>
+                  <div class="ending-note">${item.note}</div>
+                  <div class="ending-grid">
+                    <div>
+                      <div class="ending-label">系统日志</div>
+                      <div class="ending-log">${item.log.map((line) => `<div>${line}</div>`).join("")}</div>
+                    </div>
+                    <div>
+                      <div class="ending-label">${permissionLabel}</div>
+                      <div class="ending-denied">${item.denied.map((line) => `<span>${line}<b>${accessStatus}</b></span>`).join("")}</div>
+                    </div>
+                  </div>
+                  <div class="ending-footer">
+                    <span>${item.collected}</span>
+                    <button class="primary">重新开始</button>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>`;
+      }
+
+      document.getElementById("preview").innerHTML = endings.map(renderEnding).join("");
+    </script>
+  </body>
+</html>
