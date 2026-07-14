@@ -76,7 +76,7 @@ test("affairs evidence modal renders xzy variant", () => {
 test("public chain modal enables evidence action after three fields", () => {
   const html = Modals.renderPublicChainModal(ctx({ publicChainModal: true, publicChainFields: ["supplier", "partner", "minutes"] }));
   assert.match(html, /形成核验记录 3\/3/);
-  assert.match(html, /联系人：<strong>顾明远<\/strong>/);
+  assert.match(html, /联系人：<strong>顾兴学<\/strong>/);
   assert.doesNotMatch(html, /<strong>青川智教信息技术有限公司/);
   assert.doesNotMatch(html, /public-chain-evidence" disabled/);
 });

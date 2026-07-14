@@ -227,11 +227,11 @@
             <div class="public-doc-grid">
               <button class="archive-field ${selected("supplier") ? "selected" : ""}" data-action="public-chain-field-supplier">
                 <span>中标供应商</span>
-                <div class="archive-field-value">青川智教信息技术有限公司 / 联系人：<strong>顾明远</strong></div>
+                <div class="archive-field-value">青川智教信息技术有限公司 / 联系人：<strong>顾兴学</strong></div>
               </button>
               <button class="archive-field ${selected("partner") ? "selected" : ""}" data-action="public-chain-field-partner">
                 <span>合作备案</span>
-                <div class="archive-field-value">青川明远教育咨询有限公司 / 高校发展项目协作单位 / 联系人：<strong>顾明远</strong></div>
+                <div class="archive-field-value">青川兴学教育咨询有限公司 / 高校发展项目协作单位 / 联系人：<strong>顾兴学</strong></div>
               </button>
               <button class="archive-field ${selected("minutes") ? "selected" : ""}" data-action="public-chain-field-minutes">
                 <span>会议纪要节选</span>

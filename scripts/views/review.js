@@ -1,4 +1,8 @@
 (function (root) {
+  function sortedEvidenceIds(ids) {
+    return [...ids].sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)));
+  }
+
   function renderReviewRoute(ctx) {
     const { state, constants, h, header } = ctx;
     const { REVIEW_ROUTE } = constants;
@@ -56,7 +60,7 @@
     const selectedUnit = state.selectedUnit === "不存在明确责任单位" ? "多部门材料互相引用" : state.selectedUnit;
     const submittedEvidence = reviewSubmittedEvidence();
     const submittedHas = (id) => submittedEvidence.includes(id);
-    const allEvidenceIds = state.evidence.filter((id) => EVIDENCE[id]);
+    const allEvidenceIds = sortedEvidenceIds(state.evidence.filter((id) => EVIDENCE[id]));
     const reviewChecks = [
       {
         title: "节点顺序",

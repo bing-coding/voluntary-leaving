@@ -56,6 +56,8 @@
       selectedEvidence: [],
       statementChips: [],
       ending: "",
+      preEndingState: null,
+      messageLog: [],
       noticeModal: "",
       affairsModal: "",
       talkSourceModal: false,
@@ -141,6 +143,7 @@
         loaded.introVersion = INTRO_VERSION;
       }
       loaded.evidence = Array.isArray(loaded.evidence) ? loaded.evidence.filter((id) => evidenceMap[id]) : [];
+      loaded.messageLog = Array.isArray(loaded.messageLog) ? loaded.messageLog.slice(-8) : [];
       if (!loaded.selectedUnit) loaded.selectedUnit = "多部门材料互相引用";
       if (!loaded.reviewSelectionMode) loaded.reviewSelectionMode = "flow";
       if (!evidenceMap[loaded.recentEvidenceId]) loaded.recentEvidenceId = "";

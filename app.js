@@ -140,7 +140,7 @@
         state.selectedEvidence = flowReviewEvidence();
       }
       state.recentEvidenceId = id;
-      toast(`新增本地证据：${EVIDENCE[id][0]} · ${EVIDENCE[id][1]}`);
+      toast(`新增本地证据：${EVIDENCE[id][0]} · ${EVIDENCE[id][1]}`, 6000);
       window.setTimeout(() => {
         if (state.recentEvidenceId === id) {
           state.recentEvidenceId = "";
@@ -172,18 +172,37 @@
     render();
   }
 
-  function toast(message) {
+  function toast(message, duration = 5000) {
     const item = { id: `${Date.now()}-${Math.random().toString(16).slice(2)}`, message };
     state.toasts = [...state.toasts.slice(-2), item];
+    state.messageLog = [{ id: item.id, message }, ...(state.messageLog || [])].slice(0, 8);
     window.setTimeout(() => {
       state.toasts = state.toasts.filter((toastItem) => toastItem.id !== item.id);
       saveState();
       render();
-    }, 1800);
+    }, duration);
   }
 
   function end(type) {
+    state.preEndingState = createPreEndingSnapshot();
     state.ending = type;
+    saveState();
+    render();
+  }
+
+  function createPreEndingSnapshot() {
+    const snapshot = JSON.parse(JSON.stringify(state));
+    snapshot.ending = "";
+    snapshot.preEndingState = null;
+    snapshot.toasts = [];
+    snapshot.recentEvidenceId = "";
+    snapshot.voluntaryConfirmOpen = false;
+    return snapshot;
+  }
+
+  function restorePreEndingState() {
+    if (!state.preEndingState) return;
+    state = { ...State.createInitialState(), ...state.preEndingState, ending: "", preEndingState: null, toasts: [] };
     saveState();
     render();
   }
@@ -217,10 +236,12 @@
 
   function visibleEvidenceTotal() {
     let total = FULL_EVIDENCE_TOTAL;
-    if (!state.studentStatusRestored && !has("e17")) total -= 1;
-    if (!state.studentStatusRestored && !state.hiddenEvidence20Unlocked && !has("e20")) total -= 1;
-    if (!state.studentStatusRestored && !has("e04")) total -= 1;
+    if (!state.studentStatusRestored) total -= 4;
     return total;
+  }
+
+  function sortedEvidenceIds(ids) {
+    return [...ids].sort((a, b) => Number(a.slice(1)) - Number(b.slice(1)));
   }
 
   function countEvidence(ids, sourceIds = state.evidence) {
@@ -399,7 +420,9 @@
               <button class="mobile-dock-close" data-action="close-mobile-evidence" aria-label="关闭取证夹">×</button>
             </div>
             <div class="evidence-list">${renderEvidence()}</div>
+            ${renderStoryChains()}
             ${renderClueTerms()}
+            ${renderMessageLog()}
           </aside>
         </main>
         ${(state.mobileNavOpen || state.mobileEvidenceOpen) ? `<div class="mobile-drawer-backdrop" data-action="close-mobile-panels"></div>` : ""}
@@ -674,11 +697,89 @@
 
   function renderEvidence() {
     if (!state.evidence.length) return `<div class="evidence-empty"><strong>□ 暂无本地证据</strong><p>本地取证夹为空。</p></div>`;
-    return state.evidence.map((id) => {
+    return sortedEvidenceIds(state.evidence).map((id) => {
       const item = EVIDENCE[id];
       const fileName = `${item[0].replace("证据 ", "evidence_")}_${item[1]}.txt`;
       return `<div class="evidence-item ${state.recentEvidenceId === id ? "new" : ""}"><div><strong>□ ${fileName}</strong><p>${item[2]}</p></div><small>LOCAL</small></div>`;
     }).join("");
+  }
+
+  function renderStoryChains() {
+    const chains = getStoryChains();
+    const fullSummaryReady = state.evidence.length >= FULL_EVIDENCE_TOTAL;
+    return h`
+      <div class="story-chains">
+        <div class="story-chains-head">
+          <span>事件链</span>
+          <small>${chains.filter((chain) => chain.done === chain.ids.length).length}/${chains.length}</small>
+        </div>
+        ${chains.map((chain) => chain.revealed ? `
+          <details class="story-chain" ${chain.done >= chain.openAt ? "open" : ""}>
+            <summary>
+              <strong>${chain.title}</strong>
+              <span>${chain.done}/${chain.ids.length}</span>
+            </summary>
+            <p>${chain.statement}</p>
+            <div class="story-evidence-tags">
+              ${chain.ids.map((id) => `<span class="${has(id) ? "found" : ""}">${id.toUpperCase()}</span>`).join("")}
+            </div>
+          </details>` : `
+          <div class="story-chain story-chain-locked">
+            <div class="story-chain-summary">
+              <strong>${chain.placeholderTitle}</strong>
+              <span>${chain.done}/${chain.ids.length}</span>
+            </div>
+            <p>${chain.placeholder}</p>
+          </div>`).join("")}
+        ${fullSummaryReady ? `<div class="case-summary">
+          <strong>本地调查摘要</strong>
+          <p>林华灿不是随机被处理的学生。他同时撞见了 B4 事故线索，也挡在顾天泽推免候选资格之前。孟清曾参与学生事务材料补录，并在 B4 调阅顾天泽处分撤回、成绩补录和推免复核材料。事故发生后，学校没有让事实进入同一个系统，而是把它拆成长期休学、突发疾病、封闭馆藏、舆情缓存和学生风险标签。林华灿的退学流程，就是同一套材料系统的下一次使用。</p>
+        </div>` : ""}
+      </div>`;
+  }
+
+  function getStoryChains() {
+    return [
+      {
+        title: "离校流程伪造链",
+        placeholderTitle: "离校流程材料",
+        ids: ["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e12", "e13", "e14", "e16"],
+        openAt: 3,
+        revealAt: 3,
+        placeholder: "这些材料都来自离校流程本身。继续核对时间、来源和端口口径。",
+        statement: "这些材料指向同一件事：流程不是由林华灿主动发起，而是先有结论，再由多个端口补齐材料。"
+      },
+      {
+        title: "孟清与 B4 事故链",
+        placeholderTitle: "待归档材料组 B",
+        ids: ["e08", "e09", "e11", "e15", "e17", "e20"],
+        openAt: 2,
+        revealAt: 3,
+        placeholder: "这组材料暂时还没有形成稳定指向。先把已出现的地点、编号和旧记录留在取证夹里。",
+        statement: "孟清不是背景传闻。她接触过顾天泽材料链，并在 B4 原始附件与事故处置记录中留下了断裂的痕迹。"
+      },
+      {
+        title: "顾天泽与利益链",
+        placeholderTitle: "待归档材料组 C",
+        ids: ["e18", "e19", "e20", "e21"],
+        openAt: 2,
+        revealAt: 3,
+        placeholder: "这组材料与公开附件、项目记录或名单缓存有关。证据不足时不自动生成结论。",
+        statement: "顾天泽被保护不是单点人情，而牵动处分撤回、成绩补录、平台采购、会议纪要和推免候选资格。"
+      },
+      {
+        title: "林华灿被处理的动机",
+        placeholderTitle: "待归档材料组 D",
+        ids: ["e08", "e10", "e11", "e13", "e19", "e21"],
+        openAt: 2,
+        revealAt: 4,
+        placeholder: "这组材料可能解释为什么多个系统同时处理同一个学生。需要更多交叉来源。",
+        statement: "林华灿危险的地方不只是看见了 B4，也在于他的身份、论坛痕迹和候选名单位置能把两条线连起来。"
+      }
+    ].map((chain) => {
+      const done = chain.ids.filter(has).length;
+      return { ...chain, done, revealed: done >= chain.revealAt };
+    });
   }
 
   function getVisibleClueTerms() {
@@ -704,6 +805,21 @@
             </span>`).join("")}
         </div>
         <p class="clue-term-hint">${state.copiedClueTerm ? `已复制：${escapeHtml(state.copiedClueTerm)}` : "点击词条复制；点 + 填入门户检索框。"}</p>` : `<p class="clue-term-empty">尚未摘录可复查关键词。</p>`}
+      </div>`;
+  }
+
+  function renderMessageLog() {
+    const messages = state.messageLog || [];
+    if (!messages.length) return "";
+    return h`
+      <div class="message-log">
+        <div class="message-log-head">
+          <span>最近提示</span>
+          <small>${messages.length}</small>
+        </div>
+        <div class="message-log-list">
+          ${messages.slice(0, 5).map((item) => `<p>${escapeHtml(item.message)}</p>`).join("")}
+        </div>
       </div>`;
   }
 
@@ -952,7 +1068,10 @@
           </div>
           <div class="ending-footer">
             <span>本地取证夹：${state.evidence.length}/${visibleEvidenceTotal()}</span>
-            <button class="primary" data-action="reset">重新开始</button>
+            <div class="ending-actions">
+              ${state.preEndingState ? `<button data-action="restore-pre-ending">回到提交前</button>` : ""}
+              <button class="primary" data-action="reset">重新开始</button>
+            </div>
           </div>
         </section>
       </main>`;
@@ -1052,6 +1171,10 @@
         if (button.closest("[data-modal-panel]")) event.stopPropagation();
         if (shouldCloseMobilePanelBeforeAction(button)) {
           event.preventDefault();
+          return;
+        }
+        if (button.dataset.action === "restore-pre-ending") {
+          restorePreEndingState();
           return;
         }
         if (button.dataset.action === "portal-search") clearPortalAutocomplete(true);
