@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>自愿离校 · 文案编辑</title>
+  <link rel="stylesheet" href="./editor/editor.css" />
+</head>
+<body>
+  <header class="editor-header">
+    <div class="editor-brand"><span class="brand-icon" aria-hidden="true">文</span><div><h1>自愿离校 <span>文案编辑</span></h1><p>选场景，点文字，修改即预览。</p></div></div>
+    <div class="header-actions">
+      <span id="save-status" role="status">正在载入…</span>
+      <button id="import-button">导入修改包</button>
+      <button id="changes-button">修改记录 <span id="change-count">0</span></button>
+      <button id="export-button" class="primary">导出修改包 ↓</button>
+      <input id="import-file" type="file" accept="application/json,.json" hidden />
+    </div>
+  </header>
+  <div id="app-notice" role="alert" hidden></div>
+  <main class="editor-layout">
+    <aside class="scene-panel" aria-label="场景目录">
+      <div class="panel-heading"><h2>场景目录</h2><span id="scene-count"></span></div>
+      <label class="sr-only" for="scene-search">搜索场景</label>
+      <input id="scene-search" type="search" placeholder="搜索系统、状态、结局…" />
+      <div class="scene-filters"><button data-filter="all" class="active">全部</button><button data-filter="pending">未审</button><button data-filter="changed">已修改</button></div>
+      <nav id="scene-list" aria-label="选择场景"></nav>
+      <div class="scene-progress"><div><span>审阅进度</span><strong id="review-progress">0 / 0</strong></div><progress id="review-bar" value="0" max="1"></progress><p>草稿保存在本浏览器。交接或换设备前请导出。</p></div>
+    </aside>
+    <section class="preview-panel" aria-label="游戏预览">
+      <div class="preview-toolbar">
+        <div class="scene-meta"><span id="scene-group"></span><h2 id="scene-title">正在载入场景…</h2></div>
+        <div class="preview-actions"><select id="viewport" aria-label="预览尺寸"><option value="desktop">桌面 · 1280</option><option value="mobile">手机 · 390</option></select><select id="zoom" aria-label="预览缩放"><option value="fit">适应窗口</option><option value="1">100%</option><option value="0.8">80%</option></select><button id="mode-button" aria-pressed="false">切换到交互</button><button id="reset-scene" title="回到此场景的初始状态">重置场景</button></div>
+      </div>
+      <div class="scene-description"><p id="scene-description"></p><label><input type="checkbox" id="scene-reviewed" /> 本场景已审</label></div>
+      <div id="preview-stage"><div id="frame-sizer"><iframe id="game-preview" title="可编辑的真实游戏页面" src="about:blank"></iframe></div></div>
+      <footer class="preview-footer"><span id="mode-hint">编辑模式：点击文字进行修改；图片可添加改图备注。</span><button id="next-scene">下一个场景 →</button></footer>
+    </section>
+    <aside class="inspector-panel" aria-label="文案编辑面板">
+      <div class="inspector-tabs"><button class="active" id="inspector-tab">编辑文案</button><button id="text-list-tab">本页文字 <span id="record-count">0</span></button></div>
+      <div id="inspector-empty"><div class="selection-mark" aria-hidden="true">T</div><h2>点击页面中的文字</h2><p>原文与修改稿会显示在这里。改动会即时呈现在中间的游戏页面。</p><div class="tip">悬停查看可编辑内容。也可以从「本页文字」选择按钮提示、输入框说明等内容。</div></div>
+      <form id="copy-form" hidden>
+        <div class="field-heading"><span id="entry-kind">页面文字</span><span id="entry-state">未修改</span></div>
+        <label for="copy-original">原文</label><textarea id="copy-original" readonly rows="4"></textarea>
+        <label for="copy-replacement">修改稿 <small id="character-count"></small></label><textarea id="copy-replacement" rows="6" placeholder="输入修改后的文案"></textarea>
+        <div id="image-guidance" class="tip" hidden>图片内文字不会在此直接重绘。请填写需替换的文字及所在区域，作为改图备注随修改包交付。</div>
+        <div id="risk-notice" class="risk-note" hidden></div>
+        <label for="copy-note">备注 <small>可选</small></label><textarea id="copy-note" rows="3" placeholder="修改意图、上下文或需要一起调整的线索"></textarea>
+        <div class="field-actions"><button id="restore-copy" type="button">恢复原文</button><button id="undo-copy" type="button" disabled>撤销上次修改</button></div>
+        <details class="source-details"><summary>定位与合稿信息</summary><p id="source-description"></p><code id="entry-id"></code><div id="source-locations"></div></details>
+      </form>
+      <div id="text-list-panel" hidden><label class="sr-only" for="text-search">筛选本页文字</label><input id="text-search" type="search" placeholder="查找本页原文…" /><div id="text-list"></div></div>
+    </aside>
+  </main>
+  <dialog id="changes-dialog"><div class="dialog-heading"><div><h2>修改记录</h2><p>保留原文与上下文，导出后交给开发合回。</p></div><button id="close-changes" aria-label="关闭修改记录">×</button></div><div id="changes-list"></div><div class="dialog-footer"><button id="export-readable">导出可读清单</button><button id="export-in-dialog" class="primary">导出修改包</button></div></dialog>
+  <script src="./editor/patches.js"></script>
+  <script src="./editor/sources.js"></script>
+  <script src="./editor/scenes.js"></script>
+  <script src="./editor/editor.js"></script>
+</body>
+</html>
