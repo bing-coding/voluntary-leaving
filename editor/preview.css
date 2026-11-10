@@ -1,0 +1,67 @@
+/* These styles are loaded only by the isolated editorial preview. */
+copy-text {
+  display: inline;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.copy-preview-edit copy-text,
+.copy-preview-edit [data-copy-attribute-ids] {
+  cursor: text !important;
+}
+
+.copy-preview-edit [data-copy-image-id] {
+  cursor: crosshair !important;
+}
+
+.copy-preview-edit copy-text.copy-preview-changed {
+  text-decoration: underline dotted #bb831d;
+  text-underline-offset: 3px;
+}
+
+.copy-preview-edit img.copy-preview-changed {
+  outline: 2px dotted #bb831d;
+  outline-offset: 3px;
+}
+
+.copy-preview-selection,
+.copy-preview-hover {
+  position: fixed;
+  z-index: 2147483646;
+  pointer-events: none;
+  box-sizing: border-box;
+  border-radius: 2px;
+}
+
+.copy-preview-selection {
+  border: 2px solid #176b91;
+  background: rgb(23 107 145 / 9%);
+}
+
+.copy-preview-hover {
+  border: 1px dashed #176b91;
+  background: rgb(23 107 145 / 5%);
+}
+
+.copy-preview-selection[hidden],
+.copy-preview-hover[hidden] {
+  display: none !important;
+}
+
+/* Inspection states, including temporary warnings, remain legible. */
+.copy-preview-edit *,
+.copy-preview-edit *::before,
+.copy-preview-edit *::after {
+  animation-play-state: paused !important;
+  transition-duration: 0s !important;
+  caret-color: transparent;
+}
+
+@media print {
+  .copy-preview-selection,
+  .copy-preview-hover {
+    display: none !important;
+  }
+}
