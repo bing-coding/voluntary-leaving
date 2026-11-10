@@ -16,3 +16,15 @@
 
 /*.html
   Cache-Control: no-cache
+
+/editor/*
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
+
+/editor.html
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
+
+/preview.html
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
