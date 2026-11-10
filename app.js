@@ -22,11 +22,14 @@
   } = window.VoluntaryLeaveConstants;
   const FULL_EVIDENCE_TOTAL = Object.keys(EVIDENCE).length;
 
-  let state = State.loadState({ evidenceMap: EVIDENCE });
+  const previewMode = window.__VOLUNTARY_LEAVE_PREVIEW__ === true;
+  let state = previewMode ? State.createInitialState() : State.loadState({ evidenceMap: EVIDENCE });
   let portalAutocompleteRun = 0;
+  let previewSceneGeneration = 0;
   const app = document.getElementById("app");
 
   function saveState() {
+    if (previewMode) return;
     State.saveState(state);
   }
 
@@ -208,7 +211,12 @@
   }
 
   function resetGame() {
-    state = State.resetStoredState();
+    if (previewMode) {
+      window.VoluntaryLeavePreviewTimers?.clear();
+      portalAutocompleteRun += 1;
+      previewSceneGeneration += 1;
+    }
+    state = previewMode ? State.createInitialState() : State.resetStoredState();
     render();
   }
 
@@ -279,21 +287,15 @@
   function render() {
     if (state.ending) {
       app.innerHTML = renderEnding();
-      bind();
-      return;
-    }
-    if (!state.guideSeen) {
+    } else if (!state.guideSeen) {
       app.innerHTML = renderGuide();
-      bind();
-      return;
-    }
-    if (!state.loggedIn) {
+    } else if (!state.loggedIn) {
       app.innerHTML = renderLogin();
-      bind();
-      return;
+    } else {
+      app.innerHTML = renderShell();
     }
-    app.innerHTML = renderShell();
     bind();
+    if (previewMode) window.VoluntaryLeavePreview?.onRender?.();
   }
 
   function renderGuide() {
@@ -1403,7 +1405,9 @@
 
   function copyClueTerm(term) {
     const value = term || "";
+    const generation = previewSceneGeneration;
     const markCopied = () => {
+      if (previewMode && generation !== previewSceneGeneration) return;
       setState({ copiedClueTerm: value });
       window.setTimeout(() => {
         if (state.copiedClueTerm === value) {
@@ -1438,6 +1442,24 @@
       // Some file:// browser contexts block clipboard access; visual feedback still records the selected term.
     }
     input.remove();
+  }
+
+  if (previewMode) {
+    window.VoluntaryLeavePreview = {
+      onRender: null,
+      loadScene(scene) {
+        window.VoluntaryLeavePreviewTimers?.clear();
+        portalAutocompleteRun += 1;
+        previewSceneGeneration += 1;
+        state = { ...State.createInitialState(), ...JSON.parse(JSON.stringify(scene.state || {})) };
+        if (typeof scene.searchQuery === "string") {
+          state.portalQuery = scene.searchQuery;
+          state.portalResults = buildPortalResults(scene.searchQuery);
+        }
+        render();
+      },
+      getState() { return JSON.parse(JSON.stringify(state)); }
+    };
   }
 
   render();
