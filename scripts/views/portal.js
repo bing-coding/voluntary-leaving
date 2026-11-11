@@ -40,7 +40,7 @@
             </ul>
             <div class="actions"><button data-action="xzy-draft">查看谈话材料历史版本</button></div>
             ${has("e15") ? `<div class="archive-result" style="margin-top:10px"><div>交接记录：GCZ-2024-discipline-withdraw 由学院学生工作办公室接收。</div><div>同批缓存：recommend_rank_cache 由学院学生工作办公室接收。</div><div>接收人：周启明。</div></div>` : ""}
-            ${has("e16") ? `<div class="archive-result" style="margin-top:10px"><div>历史草稿：事项范围为课程退选与休整说明。</div><div>撤回记录：xzy_admin 撤回原草稿。</div><div>补录结果：学院学生工作办公室补录为离校意愿。</div></div>` : ""}
+            ${has("e16") ? `<div class="archive-result" style="margin-top:10px"><div>历史记录20260612_140634：已撤回，内容不可见。</div><div>归档摘要：学生表示“真的不想继续了”，对后续学业安排抵触明显，存在轻生倾向。同意其暂时离开学校环境。</div><div>已归档，入离校材料。</div><div>记录账号：xzy_admin；所属单位：信息管理学院学生办公室。</div></div>` : ""}
           </div>
         </section>
       </div>`;
