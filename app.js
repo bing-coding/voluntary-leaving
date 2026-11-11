@@ -390,7 +390,7 @@
             </div>
             <div class="portal-search ${state.portalAutocompleteActive ? "autocomplete-glitch" : ""}" data-autocomplete-hint="${escapeHtml(state.portalAutocompleteHint)}"><input id="portal-search" value="${escapeHtml(state.portalAutocompleteActive ? state.portalAutocompletePreview : state.portalQuery)}" placeholder="事项名称 / 流程编号 / 人名 / IP" autocomplete="off" /><button data-action="portal-search">搜索</button></div>
             <div class="account ${state.accountGlitch ? "account-glitch" : ""}">
-              ${state.accountGlitch ? "该账号不存在或已离校" : "林华灿　2021级　信息管理"}<br />
+              ${state.accountGlitch ? "该账号不存在或已离校" : "林华灿　2027级　信息管理"}<br />
               <span class="muted">${state.accountGlitch ? "身份状态：归档失败" : state.permissionLevel === "active_student" ? "账号权限：在籍学生" : state.permissionLevel === "reviewing" ? "账号权限：复核中临时保留" : "账号权限：离校过渡期"}</span>
             </div>
           </div>
@@ -676,7 +676,7 @@
       materials: "请先在教务首页点击“查看材料”，或核对流程编号中的时间线。",
       student: "请先尝试撤销申请，或核对流程编号中的异常节点。",
       psych: state.studentStatusRestored ? "请回材料归档重新核验课程反馈，以解锁心理中心。" : "心理中心完整内容需要先恢复在籍；当前可在材料归档查看脱敏转介单。",
-      dorm: "请先在材料归档的宿舍退宿页核对退宿申请与柜锁维修时间。",
+      dorm: "请先在材料归档的宿舍退宿页核对退宿申请与宿舍宽带续费记录。",
       library: "请先在材料归档的图书馆清退页记录索书号，或搜索 B4 / 0713。",
       card: "请先取得论坛缓存或 B4 相关线索，再核对校园卡异常流水。",
       forum: "请先查看顾天泽新闻、信息公开材料，或组合 B4 / 0713 检索。",
