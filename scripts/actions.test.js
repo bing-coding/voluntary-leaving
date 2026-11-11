@@ -188,12 +188,27 @@ test("mobile drawers switch cleanly", () => {
   assert.equal(context.state.mobileEvidenceOpen, false);
 });
 
-test("talk source accepts visible hint keywords", () => {
+test("talk source opens directly and collects evidence without typed input", () => {
   const context = ctx();
-  fields["url-param"] = "原始记录";
-  Actions.handleAction(context, "source-param");
+  Actions.handleAction(context, "open-talk-source");
   assert.ok(context.state.evidence.includes("e03"));
   assert.equal(context.state.talkSourceModal, true);
+  Actions.handleAction(context, "close-talk-source");
+  assert.equal(context.state.talkSourceModal, false);
+  Actions.handleAction(context, "open-talk-source");
+  assert.equal(context.state.talkSourceModal, true);
+  assert.deepEqual(context.state.evidence, ["e03"]);
+});
+
+test("dorm evidence still needs both records in either inspection order", () => {
+  for (const order of [["dorm-apply", "dorm-repair"], ["dorm-repair", "dorm-apply"]]) {
+    const context = ctx();
+    Actions.handleAction(context, order[0]);
+    assert.equal(context.state.evidence.includes("e05"), false);
+    Actions.handleAction(context, order[1]);
+    assert.ok(context.state.evidence.includes("e05"));
+    assert.ok(context.state.unlocked.includes("dorm"));
+  }
 });
 
 test("withdraw identity glitch only appears on first failed attempt", () => {
