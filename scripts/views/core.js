@@ -113,18 +113,14 @@
         <div class="card">
           <div class="card-head">辅导员谈话记录 <span class="tag warn">仅摘要</span></div>
           <div class="card-body">
-            <p>学生表示<button class="inspect-token ${inspected("talk-quote") ? "marked" : ""}" data-action="talk-quote">“真的不想继续了”</button>，否则可能进行<strong>生命威胁</strong>，对后续学业安排抵触明显。同意其暂时离开学校环境。</p>
-            ${inspected("talk-quote") ? `<div class="kv compact-kv" style="margin-top:10px">
+            <p>学生表示“真的不想继续了”，对后续学业安排抵触明显，存在轻生倾向。同意其暂时离开学校环境。</p>
+            <div class="kv compact-kv" style="margin-top:10px">
               <div><span>当前显示</span><span>摘要版</span></div>
               <div><span>来源记录</span><span>2026-06-12 13:40 谈话原始记录</span></div>
-              <div><span>原文状态</span><span>未展开</span></div>
+              <div><span>原文状态</span><span><button class="text-link" data-action="open-talk-source">${has("e03") ? "重新查看原文" : "点击查看原文"}</button></span></div>
             </div>
-            <div class="input-row">
-              <input id="url-param" placeholder="输入“原始记录”或来源编号" />
-              <button data-action="source-param">查看原始记录</button>
-            </div>
-            <p class="muted">归档页只展示摘要，来源记录不在页面菜单中。来源编号：chat_20260612_1340。</p>` : `<p class="muted">记录类型：谈话摘要。引用来源：未展开。</p>`}
-            ${has("e03") ? `<div class="red-note">原始记录显示，这句话指向退课而不是退学。<button class="text-link" data-action="open-talk-source">重新查看原始记录</button></div>` : ""}
+            <p class="muted">来源编号：chat_20260612_1340。</p>
+            ${has("e03") ? `<div class="red-note">原始记录显示，这句话指向退课而不是退学。</div>` : ""}
           </div>
         </div>`;
     }
@@ -149,9 +145,9 @@
                   <div><span>反馈结果</span><span><button class="inspect-token ${has("e04") ? "marked" : ""}" data-action="survey-map">“不愿继续本课程学习” → “终止学业意愿”</button></span></div>` : `<div><span>内容项</span><span><button class="inspect-token" data-action="survey-map">“对****非常不满” …… “不愿继续****学习”</button></span></div>`}
                 </div>
                 ${!state.studentStatusRestored ? `<div class="unlock-box">
-                  <p>当前账号处于离校过渡期，仅能查看脱敏请求详情。完整原表需要在籍学生的课程平台权限。</p>
-                  <p>若退学流程回转并恢复学生身份，可重新核验此页面。</p>
-                  <p>权限恢复后，可重新核验原始反馈来源并进入心理中心复核。</p>
+                  <p>当前账号处于离校过渡期，仅能查看可公开内容。完整原表需要在籍学生的课程平台权限方可查看。</p>
+                  <p>若退学流程回转并恢复学生身份，可重新查看此页面。</p>
+                  <p>权限恢复后，可查看原始反馈来源并进入心理中心复核。</p>
                 </div>` : ""}
                 ${state.studentStatusRestored && !has("e04") ? `<div class="notice" style="margin-top:10px">权限恢复后，完整页面显示它来自课程学习体验反馈，不是独立心理评估。继续点击任一“反馈结果”转换字段，即可写入证据并解锁心理中心。</div>` : ""}
                 ${has("e04") ? `<div class="red-note">这份风险材料的原始页面、发起单位和反馈结果都指向课程反馈问卷，不能证明独立心理评估。</div>` : ""}
@@ -162,19 +158,33 @@
     }
     if (state.materialTab === "dormDoc") {
       return h`
-        <div class="${has("e05") ? "doc-view" : ""}">
+        <div class="dorm-doc">
           <div class="card">
             <div class="card-head">宿舍退宿申请 <span class="tag warn">已通过</span></div>
             <div class="card-body">
               <div class="kv">
                 <div><span>退宿申请</span><span><button class="inspect-token ${inspected("dorm-apply") ? "marked" : ""}" data-action="dorm-apply">2026-06-18 22:41</button></span></div>
-                <div><span>柜锁维修</span><span><button class="inspect-token ${inspected("dorm-repair") ? "marked" : ""}" data-action="dorm-repair">2026-06-18 22:36 · 已打开</button></span></div>
+                <div><span>宿舍宽带续费</span><span><button class="inspect-token ${inspected("dorm-repair") ? "marked" : ""}" data-action="dorm-repair">2026-06-18 22:36 · 已支付</button></span></div>
+                <div><span>宽带有效期</span><span>至 2026-12-31</span></div>
                 <div><span>床位状态</span><span>待新生调配</span></div>
               </div>
-              ${has("e05") ? `<div class="red-note">柜锁维修早于退宿申请，宿舍物品清退并非学生主动发起。</div>` : ""}
+              ${has("e05") ? `<div class="red-note">本人刚将宿舍宽带续费至年底，五分钟后却出现主动退宿申请。长期续费与立即退宿的意愿相互矛盾，需进一步核验退宿申请来源。</div>` : `<p class="muted">点击退宿申请时间和宽带续费记录，核对两项业务。</p>`}
             </div>
           </div>
-          ${has("e05") ? `<img class="asset" src="./assets/evidence_dorm_cabinet_maintenance_v3.jpg" alt="宿舍柜门维修照片" />` : ""}
+          ${has("e05") ? `<section class="dorm-receipt" aria-label="宿舍宽带续费电子回执">
+            <div class="dorm-receipt-head"><span>青川大学 · 校园网络服务</span><span class="tag ok">支付成功</span></div>
+            <h2>宿舍宽带续费电子回执</h2>
+            <p class="muted">业务单号：NET-20260618-0713</p>
+            <div class="kv">
+              <div><span>办理人</span><span>林华灿</span></div>
+              <div><span>办理渠道</span><span>学生本人账号 · 校园网络自助服务</span></div>
+              <div><span>服务项目</span><span>宿舍宽带长期续费</span></div>
+              <div><span>缴费时间</span><span>2026-06-18 22:36</span></div>
+              <div><span>服务截止</span><span>2026-12-31 23:59</span></div>
+              <div><span>订单状态</span><span>已支付，未申请退订或退款</span></div>
+            </div>
+            <p class="dorm-receipt-foot">本回执记录网络服务办理情况；退宿手续由宿舍管理系统另行处理。</p>
+          </section>` : ""}
         </div>`;
     }
     return h`
