@@ -30,7 +30,7 @@
                 <div><span>床位状态</span><span>释放中</span></div>
                 <div><span>宿舍门禁</span><span>离校过渡期回收中</span></div>
               </div>
-              <p>维修单原件已归入离校材料附件。</p>
+              <p>宿舍宽带长期续费回执已归入离校材料附件。网络服务尚未到期，且未申请退订或退款。</p>
             </div>
           </div>
           <img class="asset" src="./assets/env_dorm_gate_card_reader_v3.jpg" alt="宿舍门禁读卡器" />
