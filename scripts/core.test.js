@@ -62,6 +62,23 @@ test("materials psych tab shows restored course feedback source", () => {
   assert.match(html, /不能证明独立心理评估/);
 });
 
+test("talk source is directly reachable before inspecting the quote", () => {
+  const html = CoreViews.renderMaterials(ctx({ materialTab: "talk" }));
+  assert.match(html, /data-action="open-talk-source">点击查看原文/);
+  assert.doesNotMatch(html, /url-param|source-param|输入“原始记录”/);
+});
+
+test("dorm receipt appears after comparing records and replaces the old photo", () => {
+  const hidden = CoreViews.renderMaterials(ctx({ materialTab: "dormDoc" }));
+  assert.match(hidden, /data-action="dorm-apply"/);
+  assert.match(hidden, /data-action="dorm-repair"/);
+  assert.doesNotMatch(hidden, /aria-label="宿舍宽带续费电子回执"/);
+  const revealed = CoreViews.renderMaterials(ctx({ materialTab: "dormDoc", evidence: ["e05"] }));
+  assert.match(revealed, /aria-label="宿舍宽带续费电子回执"/);
+  assert.match(revealed, /未申请退订或退款/);
+  assert.doesNotMatch(revealed, /evidence_dorm_cabinet_maintenance|柜锁维修/);
+});
+
 test("student view shows flow loop and rollback route after restoration", () => {
   const html = CoreViews.renderStudent(ctx({ studentStatusRestored: true, evidence: ["e07"], flowPreviewVisible: true }));
   assert.match(html, /责任闭环对比/);
