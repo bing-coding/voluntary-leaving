@@ -66,14 +66,12 @@
         title: "谈话材料历史版本记录",
         tag: "材料归档 / 历史版本缓存",
         evidence: "证据 16 · 谈话草稿被撤回补录",
+        status: "仅保留谈话摘要",
         body: [
-          ["历史草稿", "事项范围为课程退选与休整说明"],
-          ["撤回记录", "xzy_admin 撤回原草稿"],
-          ["补录结果", "学院学生工作办公室补录为离校意愿"],
-          ["系统备注", "历史版本由 xzy_admin 撤回，归档摘要由学院学生工作办公室补录"],
-          ["残页状态", "仅保留摘要差异，原始谈话需回到材料归档页核验"]
-        ],
-        note: "这份残页的重点不是原话内容，而是更接近真实语境的草稿曾被撤回，随后由学院端补录。"
+          ["历史记录20260612_140634", "（已撤回，内容不可见）"],
+          ["历史记录20260619_084639", "学生情绪不稳定，消极悲观，表达出放弃学业的意愿，言辞激烈有轻生倾向。"],
+          ["归档摘要", "学生表示“真的不想继续了”，对后续学业安排抵触明显，存在轻生倾向。同意其暂时离开学校环境。"]
+        ]
       }
     };
     const item = items[state.affairsModal];
@@ -88,23 +86,18 @@
             </div>
             <div class="notice-modal-body">
               <h2>${item.title}</h2>
-              <div class="notice-meta">来源：材料归档历史版本缓存　状态：仅保留差异残页</div>
+              <div class="notice-meta">来源：材料归档历史版本缓存　状态：${item.status}</div>
               <div class="version-compare">
-                <div>
-                  <span>历史草稿 A</span>
-                  <strong>课程退选 / 休整说明</strong>
-                  <p>草稿保留事项范围，没有形成退学确认。</p>
-                </div>
-                <div>
-                  <span>归档摘要</span>
-                  <strong>终止当前学业安排意愿</strong>
-                  <p>补录后进入离校材料链。</p>
-                </div>
+                ${item.body.map(([label, text], index) => `
+                  <div${index === 2 ? ` style="grid-column:1 / -1"` : ""}>
+                    <span>${label}</span>
+                    <strong>${text}</strong>
+                    ${index === 2 ? "<p>已归档，入离校材料。</p>" : ""}
+                  </div>`).join("")}
               </div>
               <div class="version-log">
-                <div><span>撤回账号</span><strong>xzy_admin</strong></div>
-                <div><span>补录单位</span><strong>学院学生工作办公室</strong></div>
-                <div><span>残页状态</span><strong>只保留摘要差异，原始谈话需回到材料归档页核验</strong></div>
+                <div><span>记录账号</span><strong>xzy_admin</strong></div>
+                <div><span>所属单位</span><strong>信息管理学院学生办公室</strong></div>
               </div>
               <div class="evidence-note">已写入本地取证夹：${item.evidence}</div>
               <div class="actions" style="justify-content:flex-end">
@@ -156,7 +149,7 @@
               <div><strong>林华灿</strong><p><strong>不然我真的要挂了！</strong></p></div>
               <div><strong>许知遥</strong><p>我理解，你先冷静一下。</p></div>
             </div>
-            <div class="red-note">归档摘要把“挂科”的口语表达改写成生命威胁，并省略了“我想退课”的限定语境。</div>
+            <div class="red-note">“挂科”的口语表达在归档摘要中被解释为轻生倾向，并省略了“我想退课”的限定语境。</div>
             <div class="notice-attachment">已写入本地取证夹：证据 03 · 谈话摘要断章取义</div>
             <div class="actions" style="justify-content:flex-end">
               <button class="primary" data-action="close-talk-source">我已查看</button>
