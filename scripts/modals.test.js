@@ -66,11 +66,28 @@ test("notice modal renders selected notice", () => {
   assert.match(html, /data-action="close-notice"/);
 });
 
-test("affairs evidence modal renders xzy variant", () => {
+test("affairs evidence modal keeps withdrawn history unreadable and shows the archived summary", () => {
   const html = Modals.renderAffairsEvidenceModal(ctx({ affairsModal: "xzy" }));
   assert.match(html, /谈话材料历史版本记录/);
   assert.match(html, /材料归档历史版本缓存/);
-  assert.match(html, /历史草稿 A/);
+  assert.match(html, /状态：仅保留谈话摘要/);
+  assert.match(html, /历史记录20260612_140634<\/span>\s*<strong>（已撤回，内容不可见）<\/strong>/);
+  assert.match(html, /历史记录20260619_084639<\/span>\s*<strong>学生情绪不稳定，消极悲观，表达出放弃学业的意愿，言辞激烈有轻生倾向。<\/strong>/);
+  assert.match(html, /学生表示“真的不想继续了”，对后续学业安排抵触明显，存在轻生倾向。同意其暂时离开学校环境。/);
+  assert.match(html, /已归档，入离校材料。/);
+  assert.match(html, /记录账号<\/span><strong>xzy_admin/);
+  assert.match(html, /所属单位<\/span><strong>信息管理学院学生办公室/);
+  assert.doesNotMatch(html, /课程退选|休整说明|草稿保留事项范围|原始谈话需回到/);
+});
+
+test("talk source preserves the course withdrawal context behind the revised risk summary", () => {
+  const html = Modals.renderTalkSourceModal(ctx({ talkSourceModal: true }));
+  assert.match(html, /老师，我真的不想继续了……/);
+  assert.match(html, /<p>我想退课。<\/p>/);
+  assert.match(html, /不然我真的要挂了！/);
+  assert.match(html, /我理解，你先冷静一下。/);
+  assert.match(html, /被解释为轻生倾向，并省略了“我想退课”的限定语境/);
+  assert.doesNotMatch(html, /改写成生命威胁/);
 });
 
 test("public chain modal enables evidence action after three fields", () => {
