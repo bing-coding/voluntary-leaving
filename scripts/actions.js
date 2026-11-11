@@ -43,7 +43,6 @@
     if (action === "notice-service") return setState({ noticeModal: "service" }) || true;
     if (action === "close-notice") return setState({ noticeModal: "" }) || true;
     if (action === "close-affairs-modal") return setState({ affairsModal: "" }) || true;
-    if (action === "open-talk-source") return setState({ talkSourceModal: true }) || true;
     if (action === "close-talk-source") return setState({ talkSourceModal: false }) || true;
     if (action === "open-flow-modal") return setState({ workOrderFlowModal: true }) || true;
     if (action === "close-flow-modal") return setState({ workOrderFlowModal: false }) || true;
@@ -238,28 +237,10 @@
     if (action === "pdf-author") return act(() => { state.pdfAuthorMarked = true; addEvidence("e02"); }, 4) || true;
     if (action === "pdf-creator" || action === "pdf-created") return act(() => toast("该字段已记录。"), 1) || true;
     if (action === "talk-quote") return act(() => inspectField("talk-quote"), 2) || true;
-    if (action === "source-param") {
-      const value = (document.getElementById("url-param")?.value || "").toLowerCase().replace(/\s+/g, "");
-      const opensSource = value.includes("source")
-        || value.includes("raw")
-        || value.includes("origin")
-        || value.includes("原始")
-        || value.includes("原文")
-        || value.includes("来源")
-        || value.includes("谈话记录")
-        || value.includes("20260612")
-        || value.includes("13:40")
-        || value.includes("1340")
-        || value.includes("chat_20260612_1340");
-      return act(() => {
-        if (opensSource) {
-          addEvidence("e03");
-          state.talkSourceModal = true;
-          return;
-        }
-        addRiskLog("学生尝试访问谈话记录非公开来源视图。");
-      }, 5) || true;
-    }
+    if (action === "open-talk-source") return act(() => {
+      addEvidence("e03");
+      state.talkSourceModal = true;
+    }, 5) || true;
     if (action === "survey-source") return act(() => {
       inspectField("survey-source");
       addRiskLog("学生展开心理转介单的请求记录来源。");
@@ -269,12 +250,13 @@
     }, 2) || true;
     if (action === "survey-map") return act(() => {
       if (!state.studentStatusRestored && !has("e04")) {
-        toast("当前账号只能查看脱敏请求详情。完整原表需要在籍学生权限。");
+        toast("当前账号仅能查看可公开内容。完整原表需要在籍学生的课程平台权限方可查看。");
         return;
       }
       addEvidence("e04");
       unlock("psych");
     }, 5) || true;
+    // Retain the saved inspection key for players who already checked this record.
     if (action === "dorm-apply" || action === "dorm-repair") return act(() => {
       inspectField(action);
       if ((action === "dorm-apply" && inspected("dorm-repair")) || (action === "dorm-repair" && inspected("dorm-apply"))) {
