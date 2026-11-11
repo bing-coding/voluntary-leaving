@@ -1275,6 +1275,42 @@ button:disabled {
   margin-top: 10px;
 }
 
+.dorm-receipt {
+  margin-top: 12px;
+  padding: clamp(16px, 3vw, 28px);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--brand);
+  background: #fff;
+  overflow-wrap: anywhere;
+}
+
+.dorm-receipt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #536272;
+  font-size: 12px;
+}
+
+.dorm-receipt h2 {
+  margin: 20px 0 8px;
+  color: var(--brand);
+  font-size: 22px;
+}
+
+.dorm-receipt .kv {
+  margin: 18px 0;
+}
+
+.dorm-receipt-foot {
+  margin: 0;
+  color: #667585;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
 .haunted-image {
   filter: contrast(1.45) saturate(0.3) brightness(0.72);
   box-shadow: inset 0 0 0 999px rgba(120, 0, 0, 0.2);
