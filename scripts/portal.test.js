@@ -41,6 +41,16 @@ test("affairs view marks collected Mengqing evidence", () => {
   assert.match(html, /GCZ-2024-discipline-withdraw/);
 });
 
+test("affairs view reveals the current history summary only after evidence 16", () => {
+  assert.doesNotMatch(PortalViews.renderAffairs(ctx()), /历史记录20260612_140634|归档摘要：/);
+  const html = PortalViews.renderAffairs(ctx({ evidence: ["e16"] }));
+  assert.match(html, /历史记录20260612_140634：已撤回，内容不可见。/);
+  assert.match(html, /归档摘要：学生表示“真的不想继续了”，对后续学业安排抵触明显，存在轻生倾向。同意其暂时离开学校环境。/);
+  assert.match(html, /已归档，入离校材料。/);
+  assert.match(html, /记录账号：xzy_admin；所属单位：信息管理学院学生办公室。/);
+  assert.doesNotMatch(html, /事项范围为课程退选与休整说明|撤回记录：xzy_admin 撤回原草稿/);
+});
+
 test("work view shows risk logs and flow shortcut", () => {
   const html = PortalViews.renderWork(ctx({ riskLogs: ["log"], inspectedFields: ["flow-loop"] }));
   assert.match(html, /学生状态研判与家校协同服务/);
