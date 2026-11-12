@@ -3,7 +3,7 @@
     const { inspected, h, header } = ctx;
     const profileVisible = inspected("psych-risk-profile");
     return h`
-      ${header("心理中心预约系统", "心理中心仅对现有材料出具风险提示，不参与学籍异动决定。")}
+      ${header("心理中心预约系统", "心理中心仅对现有材料出具风险提示，不参与学籍变动决定。")}
       <div class="panel-body">
         <div class="notice">若需调整学院意见，请先完成心理中心复核；心理中心复核需学院撤销转介单后发起。</div>
         <div class="card">
@@ -19,7 +19,7 @@
   function renderDorm(ctx) {
     const { h, header } = ctx;
     return h`
-      ${header("宿舍管理系统", "当前床位已进入离校释放流程。若需恢复，请由学院先撤销学籍异动。")}
+      ${header("宿舍管理系统", "当前床位已进入离校释放流程。若需恢复，请由学院先撤销学籍变动。")}
       <div class="panel-body">
         <div class="doc-view">
           <div class="card">
@@ -292,7 +292,7 @@
               ${has("e12") ? `<div class="red-note">家长端确认的是“暂时离校休整”，教务归档却改写为“同意自愿退学”。</div>` : ""}
             </div>
           </div>
-          ${profileVisible ? `<img class="asset" src="./assets/ui_parent_portal_cache_v3.jpg" alt="家长端小程序缓存页" />` : ""}
+          ${profileVisible ? `<img class="asset" src="./assets/ui_parent_portal_cache_v4.png" alt="家长端小程序缓存页" />` : ""}
         </div>
       </div>`;
   }

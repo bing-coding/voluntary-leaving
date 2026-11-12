@@ -3,7 +3,7 @@
     const { state, inspected, has, h, header } = ctx;
     const voluntaryPressure = Math.max(0, Math.min(4, (state.withdrawAttempts || 0) - 1));
     return h`
-      ${header(state.studentStatusRestored ? "学籍异动撤销回执" : "学籍异动终审提醒", state.studentStatusRestored ? "退学流程已回转至 0%。当前学籍状态：在籍。" : "离校手续完成度 87%。当前节点：本人最终确认。")}
+      ${header(state.studentStatusRestored ? "学籍变动撤销回执" : "学籍变动终审提醒", state.studentStatusRestored ? "退学流程已回转至 0%。当前学籍状态：在籍。" : "离校手续完成度 87%。当前节点：本人最终确认。")}
       <div class="panel-body">
         <div class="grid">
           <div class="card">
@@ -13,7 +13,7 @@
                 <div><span>申请人</span><span>林华灿</span></div>
                 <div><span>申请来源</span><span>学生端在线提交</span></div>
                 <div><span>提交时间</span><span>2026-06-24 02:13:47</span></div>
-                <div><span>流程编号</span><span>QCU-XJYD-20260619-0713</span></div>
+                <div><span>流程编号</span><span>QCU-XJBD-20260619-0713</span></div>
                 <div><span>当前状态</span><span>${state.studentStatusRestored ? "流程已退回并允许学生端撤销" : "本人最终确认"}</span></div>
               </div>
               <div class="actions">
@@ -42,7 +42,7 @@
               <table class="table ambient-table">
                 <tr><th>周次</th><th>课程</th><th>地点</th><th>状态</th></tr>
                 <tr><td>周一 3-4</td><td>数据仓库与数据挖掘</td><td>尚德楼 A203</td><td>已结束</td></tr>
-                <tr><td>周三 7-8</td><td>信息系统项目管理</td><td>明理楼 406</td><td>待上课</td></tr>
+                <tr><td>周三 7-8</td><td>信息系统项目管理</td><td>明理楼 406</td><td>已结束</td></tr>
                 <tr><td>周五 1-2</td><td>专业实习说明会</td><td>线上会议</td><td>未签到</td></tr>
               </table>
             </div>
@@ -62,7 +62,7 @@
         <div class="card" style="margin-top:12px"><div class="card-head">流程办理时间</div><div class="card-body"><div class="timeline-log">
           <button class="timeline-row ${has("e01") ? "marked" : ""}" data-action="flow-early-node"><span>2026-06-19 09:08</span><strong>学院预审通过</strong></button>
           <button class="timeline-row ${has("e01") ? "marked" : ""}" data-action="flow-early-node"><span>2026-06-19 09:10</span><strong>心理风险材料已补充</strong></button>
-          <button class="timeline-row ${has("e01") ? "marked" : ""}" data-action="flow-early-node"><span>2026-06-19 09:11</span><strong>家长知情确认已上传</strong></button>
+          <button class="timeline-row ${has("e01") ? "marked" : ""}" data-action="flow-early-node"><span>2026-06-19 09:17</span><strong>家长知情确认已上传</strong></button>
           <button class="timeline-row ${has("e01") ? "marked" : ""}" data-action="flow-early-node"><span>2026-06-24 02:13</span><strong>学生本人提交申请</strong></button>
         </div>${has("e01") ? `<div class="red-note">审核节点早于学生本人提交申请，流程时间线不成立。</div>` : `<p class="muted" style="margin-top:8px">点击任一办理时间或节点名称，核对流程顺序。</p>`}</div></div>
       </div>`;
@@ -105,7 +105,7 @@
               ${state.pdfAuthorMarked ? `<div class="red-note">作者字段并非学生账号，且创建时间早于学生端提交时间。</div>` : ""}` : ""}
             </div>
           </div>
-          ${state.pdfMetaVisible ? `<img class="asset" src="./assets/doc_withdrawal_application_scan_v3.jpg" alt="自愿退学申请书扫描件" />` : ""}
+          ${state.pdfMetaVisible ? `<img class="asset" src="./assets/doc_withdrawal_application_scan_v4.png" alt="自愿退学申请书扫描件" />` : ""}
         </div>`;
     }
     if (state.materialTab === "talk") {
@@ -202,7 +202,7 @@
     const { state, inspected, has, h, header, renderRiskLogs, getAppealProfile, REVIEW_ROUTE } = ctx;
     const appealProfile = getAppealProfile();
     return h`
-      ${header("学生事务申诉工单", "工单流转期间，原学籍异动流程照常推进。")}
+      ${header("学生事务申诉工单", "工单流转期间，原学籍变动流程照常推进。")}
       <div class="panel-body">
         <div class="grid">
           <div class="card">

@@ -70,7 +70,7 @@
           <div class="portal-news">
             <div class="portal-section-title"><strong>核心记录</strong><span class="tag ${inspected("life-fragments") ? "ok" : "warn"}">${inspected("life-fragments") ? "已查看" : "待查看"}</span></div>
             <article class="portal-news-card">
-              <img src="./assets/portal_generated/portal_care_dashboard_thumb.jpg" alt="家校协同摘要" />
+              <img src="./assets/portal_generated/portal_care_dashboard_thumb_v2.png" alt="家校协同摘要" />
               <div>
                 <span>学生画像摘要</span>
                 <h3><button class="inspect-token ${inspected("life-fragments") ? "marked" : ""}" data-action="work-profile">课程留言、拒填量表、夜间出入与论坛发帖</button></h3>
