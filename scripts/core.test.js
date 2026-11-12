@@ -46,7 +46,7 @@ function test(name, fn) {
 
 test("academic view shows restored state and review shortcut", () => {
   const html = CoreViews.renderAcademic(ctx({ studentStatusRestored: true, progress: 0 }));
-  assert.match(html, /学籍异动撤销回执/);
+  assert.match(html, /学籍变动撤销回执/);
   assert.match(html, /提交复学后补充材料/);
 });
 

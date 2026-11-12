@@ -108,7 +108,7 @@ test("library and forum content render from data maps", () => {
 
 test("restore notice modal renders rollback receipt", () => {
   const html = Modals.renderRestoreNoticeModal(ctx({ restoreNoticePopup: true }));
-  assert.match(html, /XJYD-0713-ROLLBACK/);
+  assert.match(html, /XJBD-0713-ROLLBACK/);
   assert.match(html, /close-restore-notice/);
 });
 

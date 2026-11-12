@@ -201,7 +201,7 @@
         }, 0);
         return true;
       }
-      toast("学籍异动终审提醒：当前节点为本人最终确认。");
+      toast("学籍变动终审提醒：当前节点为本人最终确认。");
       setState({ loggedIn: true, loginError: "" });
       return true;
     }
@@ -221,7 +221,7 @@
       }
       state.withdrawAttempts = (state.withdrawAttempts || 0) + 1;
       unlock("student");
-      addRiskLog("学生尝试撤销已进入终审阶段的学籍异动流程。");
+      addRiskLog("学生尝试撤销已进入终审阶段的学籍变动流程。");
       if (state.withdrawAttempts === 1) triggerIdentityGlitch();
     }, 5) || true;
     if (action === "flow-log") return act(() => { ctx.inspectField("flow-code"); unlock("materials"); unlock("student"); addRiskLog("学生查看流程编号中的归档日期。"); }, 2) || true;
@@ -289,7 +289,7 @@
           addRiskLog("学生检索封闭区域 B4 相关档案资料。");
           if (!state.studentStatusRestored) flashAccount();
         } else {
-          addRiskLog("学生检索与当前学籍异动无直接关联的馆藏资料。");
+          addRiskLog("学生检索与当前学籍变动无直接关联的馆藏资料。");
         }
       }, 5) || true;
     }
@@ -478,7 +478,7 @@
         return;
       }
       if (state.studentStatusRestored) {
-        state.reviewError = "当前学籍异动已撤销。如需继续，请提交复学后补充调查材料。";
+        state.reviewError = "当前学籍变动已撤销。如需继续，请提交复学后补充调查材料。";
         return;
       }
       if (isLowRiskReviewRoute(submittedEvidence)) {
