@@ -8,7 +8,7 @@
         dept: "教务处、信息化办公室",
         date: "2026-06-24",
         body: [
-          "学校将于 2026 年 x 月 x 日 00:00 起集中归档近期学籍异动流程。",
+          "学校将于 2026 年 x 月 x 日 00:00 起集中归档近期学籍变动流程。",
           "处于离校、休学、退学、转专业等状态的学生，请及时登录综合教务服务平台核对待办事项。",
           "请各学院辅导员、教学秘书提醒相关学生及家长关注系统通知，避免影响后续材料核验。"
         ],
@@ -19,7 +19,7 @@
         dept: "学生工作部、教务处",
         date: "2026-06-23",
         body: [
-          "为提升办理效率，即日起涉及学籍异动、心理转介、住宿调整、奖助资格、图书清退、校园卡结算等事项，原则上通过学校网上办事大厅统一发起。",
+          "为提升办理效率，即日起涉及学籍变动、心理转介、住宿调整、奖助资格、图书清退、校园卡结算等事项，原则上通过学校网上办事大厅统一发起。",
           "补充说明或异议材料请在对应页面上传，请勿多系统重复提交。",
           "已进入终审或归档阶段的流程，部分原始材料可能暂不开放查看，如需核对请联系责任部门。"
         ],
@@ -416,12 +416,12 @@
       <div class="notice-modal-backdrop" data-action="close-restore-notice-backdrop">
         <section class="notice-modal" role="dialog" aria-modal="true" aria-label="撤销申请已接收" data-modal-panel="restore-notice">
           <div class="notice-modal-head">
-            <span>学籍异动撤销回执</span>
+            <span>学籍变动撤销回执</span>
             <button data-action="close-restore-notice" data-close-control="restore" aria-label="关闭回执">×</button>
           </div>
           <div class="notice-modal-body">
             <h2>撤销申请已接收</h2>
-            <div class="notice-meta">回执编号：XJYD-0713-ROLLBACK　状态：在籍学生</div>
+            <div class="notice-meta">回执编号：XJBD-0713-ROLLBACK　状态：在籍学生</div>
             <p>学籍状态已恢复为在籍，离校过渡期权限调整已撤回。</p>
             <p>部分此前显示“无权限查看”的材料，已允许以学生身份重新核验。</p>
             <div class="notice-attachment">新增可核验范围：图书馆封闭馆藏附件、学工完整流转记录、信息公开会议纪要 OCR。</div>
