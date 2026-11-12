@@ -305,7 +305,7 @@
           <p class="guide-lead">你登录学校门户，只是想确认一条消息：有人说你已经退学了。</p>
           <div class="guide-brief">
             <div><strong>玩法</strong><span>在教务、学工、邮箱、论坛、图书馆等系统之间核对记录，收集本地证据。</span></div>
-            <div><strong>目标</strong><span>先证明退学流程无效，再决定是否继续追查 B4 与推免候选名单。</span></div>
+            <div><strong>目标</strong><span>先回退退学流程，再决定是否继续追查 B4 事件与推免候选事件。</span></div>
             <div><strong>提醒</strong><span>页面会保存进度。游戏内“重新开始”只重置本局，不会再次显示本导引页。</span></div>
           </div>
           <div class="guide-message">昨晚 23:47，同学发来一句：“你真的退学了？”</div>
@@ -333,7 +333,7 @@
           <div class="login-hero">
             <div>
               <h1>综合教务服务平台</h1>
-              <p>统一身份认证 · 学籍异动 · 学生事务 · 学生工作</p>
+              <p>统一身份认证 · 学籍变动 · 学生事务 · 学生工作</p>
             </div>
             <div class="login-notices">
               <div>通知公告</div>
@@ -349,7 +349,7 @@
             <div class="login-tabs"><span class="active">账号登录</span><span>扫码登录</span><span>手机号登录</span></div>
             <div class="form-field">
               <label>用户名 / 学号 / 工号</label>
-              <input class="readonly-input" value="2021060713" disabled />
+              <input class="readonly-input" value="2023060713" disabled />
             </div>
             <div class="form-field">
               <label>密码</label>
@@ -377,7 +377,7 @@
       <div class="app-shell ${locked ? "is-locked" : ""} ${state.mobileNavOpen || state.mobileEvidenceOpen ? "mobile-panel-open" : ""}">
         <div class="utilitybar">
           <div>青川大学信息门户</div>
-          <div>今日：2026-06-24　角色：学生　消息 <strong>0</strong>　退出</div>
+          <div>今日：2026-06-25　角色：学生　消息 <strong>0</strong>　退出</div>
         </div>
         <header class="topbar">
           <div class="topbar-inner">
@@ -390,7 +390,7 @@
             </div>
             <div class="portal-search ${state.portalAutocompleteActive ? "autocomplete-glitch" : ""}" data-autocomplete-hint="${escapeHtml(state.portalAutocompleteHint)}"><input id="portal-search" value="${escapeHtml(state.portalAutocompleteActive ? state.portalAutocompletePreview : state.portalQuery)}" placeholder="事项名称 / 流程编号 / 人名 / IP" autocomplete="off" /><button data-action="portal-search">搜索</button></div>
             <div class="account ${state.accountGlitch ? "account-glitch" : ""}">
-              ${state.accountGlitch ? "该账号不存在或已离校" : "林华灿　2027级　信息管理"}<br />
+              ${state.accountGlitch ? "该账号不存在或已离校" : "林华灿　2023级　信息管理"}<br />
               <span class="muted">${state.accountGlitch ? "身份状态：归档失败" : state.permissionLevel === "active_student" ? "账号权限：在籍学生" : state.permissionLevel === "reviewing" ? "账号权限：复核中临时保留" : "账号权限：离校过渡期"}</span>
             </div>
           </div>
@@ -491,7 +491,7 @@
     const qDiscipline = includesAny("处分撤回", "处分", "撤回") || qGczCode;
     const qMeng = includesAny("孟清", "meng");
     if (q0713) {
-      add("教务系统", "QCU-XJYD-20260619-0713", "学籍异动流程编号，归档日期早于本人提交。", "search-academic-flow");
+      add("教务系统", "QCU-XJBD-20260619-0713", "学籍变动流程编号，归档日期早于本人提交。", "search-academic-flow");
       if (qB4 && hasMaterialCallNo) {
         add("图书馆", "QCU-SEC-B4-0713", "命中封闭馆藏索书号。详情页受限，可尝试馆藏打印预览。", "search-library-b4");
       } else {
@@ -570,7 +570,7 @@
     return h`
       <div class="identity-glitch" aria-live="assertive">
         <section class="identity-glitch-panel">
-          <div class="identity-glitch-code">AUTH-404 / XJYD-FINAL-0713</div>
+          <div class="identity-glitch-code">AUTH-404 / XJBD-FINAL-0713</div>
           <h2>该账号不存在或已离校</h2>
           <p>撤销请求未能匹配在籍学生身份。系统已按离校过渡期权限重新校验当前会话。</p>
           <div class="identity-glitch-log readable-log">
@@ -689,7 +689,7 @@
 
   function renderLocation() {
     const current = TOP_CHANNELS.find(([id]) => id === state.screen);
-    if (current) return `当前位置：首页 / ${current[1]} / ${current[0] === "academic" ? "学籍异动" : "信息浏览"}`;
+    if (current) return `当前位置：首页 / ${current[1]} / ${current[0] === "academic" ? "学籍变动" : "信息浏览"}`;
     if (state.screen === "archive") return "当前位置：首页 / 邮箱附件 / 归档预览缓存";
     const system = SYSTEMS.find(([id]) => id === state.screen);
     return `当前位置：首页 / 业务系统 / ${system ? system[1] : "材料核对"}`;
@@ -980,10 +980,10 @@
       default: {
         title: "你已被强行归档。",
         name: "石沉海底",
-        status: "XJYD-FINAL-0713 · 未收到有效异议",
+        status: "XJBD-FINAL-0713 · 未收到有效异议",
         body: "你没有完成关键举证，流程按既有材料归档。你只能看着权限逐项关闭，你什么都做不了了。<br /><br />你意识到，或许你和孟清是一样的。",
         note: "待办事项已清空。申诉入口已关闭。",
-        log: ["08:00 学籍异动归档完成", "08:03 校园网账号转入离校过渡", "08:07 论坛历史发言仅保留摘要", "08:12 家长端显示：学生已完成确认"],
+        log: ["08:00 学籍变动归档完成", "08:03 校园网账号转入离校过渡", "08:07 论坛历史发言仅保留摘要", "08:12 家长端显示：学生已完成确认"],
         denied: ["教务详情", "邮箱附件", "论坛私信", "B4 旧刊"],
         variant: "lost"
       },
@@ -1002,7 +1002,7 @@
       restore: {
         title: "流程暂停",
         name: "全身而退",
-        status: "XJYD-0713 · 材料瑕疵",
+        status: "XJBD-0713 · 材料瑕疵",
         body: "复核通过，你提交的补充材料进入复核附件，退学流程被标记为材料瑕疵并暂停。但那些有关于更多真相的信息？你不知道，或者“选择”不知情，你要的只是顺利毕业而已。<br /><br />你不需要揭露什么真相，你是明哲保身的、智慧的庶民。",
         note: supportCount >= 4 ? "页面恢复了你的名字，补充材料留在复核附件中。" : "页面恢复了你的名字，但把你真正追问的部分关掉了。",
         log: supportCount >= 4
